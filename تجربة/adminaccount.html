@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم الإدارة</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="assets/js/dashboard.js">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr@4"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="assets/js/dashboard.js" defer></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- jQuery و jQuery UI -->
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+   
+</head>
+<body>
+    <!-- شريط جانبي -->
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <h3>لوحة التحكم</h3>
+        </div>
+        <ul class="nav nav-tabs sidebar-menu" role="tablist">
+            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#products" data-id="products">إدارة المنتجات</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#orders" data-id="orders">إدارة الطلبات</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#users"  data-id="users">إدارة المستخدمين</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#payments">إدارة المدفوعات</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#reviews">إدارة المراجعات والتقييمات</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#settings">إعدادات الحساب</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#reports">تقارير وإحصائيات</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#support">دعم العملاء</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">تسجيل الخروج</a></li>
+        </ul>
+    </nav>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="main-content">
+
+      <div class="tab-content">
+        <div id="settings" class="tab-pane fade">
+    <h3>إعدادات الحساب</h3>
+    <form id="accountSettings">
+        <label for="username">اسم المستخدم:</label>
+        <input type="text" id="username" name="username">
+
+        <label for="email">البريد الإلكتروني:</label>
+        <input type="email" id="email" name="email">
+
+        <label for="password">كلمة المرور:</label>
+        <input type="password" id="password" name="password">
+
+        <button type="button" onclick="saveSettings()">حفظ التعديلات</button>
+    </form>
+</div>
+
+
+    <!-- إدارة المنتجات -->
+    <div id="products" class="tab-pane fade show active">
+    <div class="search-actions">
+    <form method="GET" action="#">
+        <label for="min-price">السعر الأدنى:</label>
+        <input type="number" id="min-price" name="min-price" min="0" max="1000" step="1">
+
+        <label for="max-price">السعر الأعلى:</label>
+        <input type="number" id="max-price" name="max-price" min="0" max="1000" step="1">
+<label >الاسم :</label>
+        <input  id="product-name" name="product-name"  step="1">
+
+        <button class="add-btn" type="submit">بحث</button>
+    </form>
+
+    <button class="add-btn" onclick="addProduct()">إضافة منتج</button>
+</div>
+
+         <div class="col-lg-12">
+          <div class="row">
+           
+            <div class="col-lg-6">
+             <div class="meeting-item">
+  <div class="thumb">
+    <div class="price">
+        <span>$22.00</span>
+    </div>
+    <img class="product-image" src="assets/images/meeting-01.jpg" alt="صورة 1">
+</div>
+
+
+  <div class="down-content">
+    <div class="date">
+      <h6>Nov <span>10</span></h6>
+    </div>
+    <div class="rating-container">
+    <h6>التقييم:</h6>
+    <div class="rating">
+        <span class="star" onclick="rateProduct(1)">★</span>
+        <span class="star" onclick="rateProduct(2)">★</span>
+        <span class="star" onclick="rateProduct(3)">★</span>
+        <span class="star" onclick="rateProduct(4)">★</span>
+        <span class="star" onclick="rateProduct(5)">★</span>
+        <span id="rating-value">0/5</span>
+    </div>
+</div>
+    <a class = " nav-link" href="#product-details" data-id="product-details" data-toggle="tab"><h4>New Lecturers Meeting</h4></a>
+    <p>Morbi in libero blandit lectus<br>cursus ullamcorper.</p>
+    <div class="actions">
+     <button class="nav-link add-btn" data-toggle="tab" href="#edit-details" data-id="edit-details">تعديل
+</button>
+      <button class="add-btn" onclick="deleteProduct(this)">حذف</button>
+    </div>
+  </div>
+</div></div>
+  
+
+</div></div>
+      </div>
+   <div id="product-details" class="tab-pane fade">
+    <div class="product-container">
+        <h2 class="product-title">تفاصيل المنتج الفاخر</h2>
+
+        <!-- دولاب الصور ثلاثي الأبعاد -->
+        <div class="carousel-3d-container">
+            <div class="carousel-3d">
+                <div class="slide" style="--i:1"><img src="assets/images/course-01.jpg" alt="صورة 1" onclick="openLightbox(this.src)"></div>
+                <div class="slide" style="--i:2"><img src="assets/images/course-02.jpg" alt="صورة 2" onclick="openLightbox(this.src)"></div>
+                <div class="slide" style="--i:3"><img src="assets/images/course-03.jpg" alt="صورة 3" onclick="openLightbox(this.src)"></div>
+                <div class="slide" style="--i:4"><img src="assets/images/course-04.jpg" alt="صورة 4" onclick="openLightbox(this.src)"></div>
+                <div class="slide" style="--i:5"><img src="assets/images/meeting-01.jpg" alt="صورة 5" onclick="openLightbox(this.src)"></div>
+            </div>
+        </div>
+
+        <!-- صندوق عرض الصورة المكبرة -->
+        <div id="lightbox" class="lightbox">
+            <span class="close-btn" onclick="closeLightbox()">&times;</span>
+            <img id="lightbox-img" class="lightbox-img">
+        </div>
+
+        <!-- تفاصيل المنتج -->
+        <div class="product-info">
+            <div class="rating">
+                <span class="star" onclick="rateProduct(1)">★</span>
+                <span class="star" onclick="rateProduct(2)">★</span>
+                <span class="star" onclick="rateProduct(3)">★</span>
+                <span class="star" onclick="rateProduct(4)">★</span>
+                <span class="star" onclick="rateProduct(5)">★</span>
+                <span id="rating-value">0/5</span>
+            </div>
+            <h3 class="product-price">💰 السعر: <span>$249.00</span></h3>
+            <h3 class="product-name">اسم: <span>كروشيه</span></h3>
+            <p class="product-description">تصميم فخم يجسد الأناقة والرقي بجودة عالية.</p>
+        </div>
+
+        <!-- قسم التعليقات -->
+        <div class="comment-section">
+            <h3>💬 التعليقات</h3>
+            
+            <!-- نموذج إضافة تعليق -->
+            <div class="add-comment">
+                <img src="assets/images/user-placeholder.jpg" alt="صورة المستخدم" class="user-avatar">
+                <textarea id="commentInput" placeholder="اكتب تعليقك هنا..."></textarea>
+                <button onclick="addComment()">نشر التعليق</button>
+            </div>
+
+            <!-- عرض التعليقات السابقة -->
+            <div class="comments-container">
+                <div class="comment">
+                    <img src="assets/images/user-1.jpg" alt="صورة المستخدم" class="user-avatar">
+                    <div class="comment-content">
+                        <h4>محمد علي</h4>
+                        <p>منتج رائع! أنصح الجميع بشرائه.</p>
+                    </div>
+                </div>
+
+                <div class="comment">
+                    <img src="assets/images/user-2.jpg" alt="صورة المستخدم" class="user-avatar">
+                    <div class="comment-content">
+                        <h4>سارة أحمد</h4>
+                        <p>الجودة ممتازة جدًا، لكن أتمنى وجود المزيد من الألوان.</p>
+                    </div>
+                </div>
+
+                <div class="comment">
+                    <img src="assets/images/user-3.jpg" alt="صورة المستخدم" class="user-avatar">
+                    <div class="comment-content">
+                        <h4>يوسف سعيد</h4>
+                        <p>منتج مميز، سريع التوصيل والتغليف احترافي.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div><div id="edit-details" class="tab-pane fade">
+    <div class="product-container">
+        <h2 class="product-title">تفاصيل المنتج الفاخر</h2>
+
+        <!-- تعديل الصور -->
+       <div id="edit-images">
+    <h3>تعديل الصور</h3>
+    <div class="image-gallery">
+        <div class="image-wrapper">
+            <img id="image1" src="assets/images/course-01.jpg" alt="صورة 1" onclick="selectImage('image1')">
+            <button class="delete-btn" onclick="deleteImage('image1')">❌</button>
+        </div>
+        <div class="image-wrapper">
+            <img id="image2" src="assets/images/course-02.jpg" alt="صورة 2" onclick="selectImage('image2')">
+            <button class="delete-btn" onclick="deleteImage('image2')">❌</button>
+        </div>
+        <div class="image-wrapper">
+            <img id="image3" src="assets/images/course-03.jpg" alt="صورة 3" onclick="selectImage('image3')">
+            <button class="delete-btn" onclick="deleteImage('image3')">❌</button>
+        </div>
+    </div>
+        <!-- إدخال صورة جديدة -->
+   
+     <input type="file" id="upload-image" onchange="previewImage(event)">
+    
+
+    <button onclick="document.getElementById('upload-image').click()">إضافة صورة جديدة</button>
+
+</div>
+
+        <!-- تعديل التفاصيل -->
+        <div id="edit-product" >
+            <h3>تعديل تفاصيل المنتج</h3>
+            <form id="edit-product-form">
+                <label>اسم المنتج:</label>
+                <input type="text" id="product-name" value="كروشيه">
+                <label>السعر:</label>
+                <input type="number" id="product-price" value="249">
+                <label>الوصف:</label>
+                <textarea id="product-description">تصميم فخم يجسد الأناقة والرقي بجودة عالية.</textarea>
+                <button type="button" onclick="saveProductDetails()">حفظ التعديلات</button>
+            </form>
+        </div>
+    </div>
+</div>
+<div id="add-product" class="tab-pane fade ">
+    <div class="product-form-container">
+        <h2 class="product-title">إضافة منتج جديد</h2>
+
+        <form id="product-form">
+            <label for="product-name">اسم المنتج:</label>
+            <input type="text" id="product-name" placeholder="أدخل اسم المنتج">
+
+            <label for="product-price">السعر:</label>
+            <input type="number" id="product-price" placeholder="أدخل السعر">
+
+            <label for="product-description">الوصف:</label>
+            <textarea id="product-description" placeholder="أدخل وصف المنتج"></textarea>
+
+            <!-- رفع الصور -->
+            <label for="product-images">رفع صور المنتج (5 صور):</label>
+            <input type="file" id="product-images" multiple accept="image/*" onchange="previewImages()">
+
+            <!-- معاينة الصور -->
+            <div class="image-preview" id="image-preview"></div>
+
+            <button type="button" onclick="saveProduct()">إضافة المنتج</button>
+        </form>
+    </div>
+</div>
+    <div id="users" class="tab-pane fade ">
+  <h3>إدارة المستخدمين</h3>
+<div>
+  <input type="text" id="search-user" placeholder="بحث عن اسم المستخدم">
+  <button onclick="searchUser()">بحث</button>
+</div>
+  <button class="add-btn" onclick="showUserForm()">إضافة مستخدم جديد</button>
+
+  <div id="user-form" style="display: none;">
+    <input type="text" id="user-name" placeholder="اسم المستخدم">
+    <input type="email" id="user-email" placeholder="البريد الإلكتروني">
+    <input type="text" id="user-image" placeholder="رابط صورة المستخدم">
+    <select id="user-role">
+      <option value="admin">مدير</option>
+      <option value="moderator">مشرف</option>
+      <option value="customer">عميل</option>
+    </select>
+    <button onclick="saveUser()">حفظ المستخدم</button>
+  </div>
+
+  <div class="user-list">
+    <!-- سيتم عرض قائمة المستخدمين هنا -->
+  </div></div>
+  <div id="orders" class="tab-pane fade">
+    <div class="container mt-3">
+        <h3>إدارة الطلبات</h3>
+        <div class="filters">
+            <input type="text" id="searchName" placeholder="بحث بالاسم">
+            <input type="date" id="dateFrom">
+            <input type="date" id="dateTo">
+            <button onclick="filterOrders()">فلترة</button>
+        </div>
+      <table class="table">
+    <thead>
+        <tr>
+            <th>رقم الطلب</th>
+            <th>اسم المشتري</th>
+            <th>التاريخ</th>
+            <th>القيمة</th>
+            <th>الحالة</th>
+            <th>إجراءات</th>
+        </tr>
+    </thead>
+    <tbody id="ordersTable">
+        <!-- يتم إضافة الطلبات ديناميكيًا -->
+    </tbody>
+</table>
+<button onclick="saveChanges()">حفظ التعديلات</button>
+    </div>
+</div>
+
+   <div id="payments" class="tab-pane fade">
+    <h3>إدارة المدفوعات</h3>
+    <p>هنا يمكنك متابعة المدفوعات، إدارة الفواتير، وعرض سجل المعاملات.</p>
+
+    <!-- ملخص المدفوعات -->
+    <div class="summary">
+        <p>💰 <strong>إجمالي المدفوعات:</strong> $25,000</p>
+        <p>⏳ <strong>المدفوعات المعلقة:</strong> $5,000</p>
+        <p>✅ <strong>المدفوعات المكتملة:</strong> $20,000</p>
+    </div>
+<div class="card p-3 shadow-sm">
+    <h5 class="mb-3">🔍 الفلترة المتقدمة</h5>
+    <div class="row g-3">
+        <div class="col-md-3">
+            <label for="startDate">📅 من تاريخ</label>
+            <input type="text" id="startDate" class="form-control datepicker" placeholder="اختر التاريخ">
+        </div>
+        <div class="col-md-3">
+            <label for="endDate">📅 إلى تاريخ</label>
+            <input type="text" id="endDate" class="form-control datepicker" placeholder="اختر التاريخ">
+        </div>
+        <script>
+  $(document).ready(function() {
+    $(".datepicker").datepicker({
+      dateFormat: "dd-mm-yy", // تنسيق التاريخ
+      showAnim: "slideDown", // تأثير ظهور التقويم
+      changeMonth: true, // السماح بتغيير الشهر
+      changeYear: true // السماح بتغيير السنة
+    });
+  });
+</script>
+        <div class="col-md-3">
+            <label for="minPrice">💰 من سعر</label>
+            <input type="number" id="minPrice" class="form-control" placeholder="أدخل الحد الأدنى">
+        </div>
+        <div class="col-md-3">
+            <label for="maxPrice">💰 إلى سعر</label>
+            <input type="number" id="maxPrice" class="form-control" placeholder="أدخل الحد الأقصى">
+        </div>
+    </div>
+
+    <div class="row g-3 mt-3">
+        <!-- البحث حسب اسم المشتري -->
+        <div class="col-md-6">
+            <label for="searchName">🔍 البحث باسم المشتري</label>
+            <input type="text" id="searchName" class="form-control" placeholder="أدخل الاسم">
+        </div>
+
+        <!-- زر التطبيق -->
+        <div class="col-md-6 d-flex align-items-end">
+            <button class="add-btn" onclick="applyFilters()">📊 تطبيق الفلترة</button>
+        </div>
+    </div>
+</div>
+
+<!-- إضافة مكتبة التقويم -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr@4"></script>
+
+
+
+<!-- جدول إدارة المدفوعات -->
+<table class="table">
+    <thead>
+        <tr>
+            <th>رقم الفاتورة</th>
+            <th>المبلغ</th>
+            <th>تاريخ الدفع</th>
+            <th>المشتري</th>
+            <th>رقم الطلب</th>
+            <th>الحالة</th>
+            <th>الإجراء</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr onclick="showInvoice('#1001', 'محمد علي', 2, ['$250 - منتج A', '$250 - منتج B'])">
+            <td>#1001</td>
+            <td contenteditable="true">$500</td>
+            <td><input type="text" class="form-control datepicker" value="2025-05-20"></td>
+            <td contenteditable="true">محمد علي</td>
+            <td>#1001</td>
+            <td>
+                <select class="form-select">
+                    <option value="مدفوعة" selected>مدفوعة</option>
+                    <option value="معلقة">معلقة</option>
+                </select>
+            </td>
+            <td>
+                <button class="btn btn-primary save-btn" style="display: none;">💾 حفظ</button>
+            </td>
+        </tr>
+        <tr onclick="showInvoice('#1002', 'أحمد خالد', 3, ['$500 - منتج X', '$500 - منتج Y', '$500 - منتج Z'])">
+            <td>#1002</td>
+            <td contenteditable="true">$1500</td>
+            <td><input type="text" class="form-control datepicker" value="2025-05-18"></td>
+            <td contenteditable="true">أحمد خالد</td>
+            <td>#1002</td>
+            <td>
+                <select class="form-select">
+                    <option value="مدفوعة">مدفوعة</option>
+                    <option value="معلقة" selected>معلقة</option>
+                </select>
+            </td>
+            <td>
+                <button class="btn btn-primary save-btn" style="display: none;">💾 حفظ</button>
+            </td>
+        </tr>
+</table>
+<!-- نافذة الفاتورة -->
+<div id="invoiceModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeInvoice()">&times;</span>
+        <h3>فاتورة رقم <span id="invoiceNumber"></span></h3>
+        <p><strong>المشتري:</strong> <span id="invoiceBuyer"></span></p>
+        <p><strong>عدد القطع:</strong> <span id="invoiceQuantity"></span></p>
+        <p><strong>تفاصيل المنتجات:</strong></p>
+        <ul id="invoiceItems"></ul>
+        <p><strong>الإجمالي:</strong> <span id="invoiceTotal"></span></p>
+    </div>
+</div>
+
+</div>
+<div id="reports" class="tab-pane fade">
+    <h3>تقارير وإحصائيات المتجر</h3>
+    <p>هنا يمكنك عرض بيانات المبيعات، تحليل تقييمات العملاء، ومراقبة أداء المنتجات.</p>
+
+    <!-- تقرير أداء المبيعات -->
+    <div class="report-box">
+        <h4>إحصائيات المبيعات</h4>
+        <canvas id="salesChart"></canvas>
+    </div>
+
+    <!-- تقرير المراجعات والتقييمات -->
+    <div class="report-box">
+        <h4>إحصائيات التقييمات</h4>
+        <canvas id="reviewsChart"></canvas>
+    </div>
+
+    <!-- تقرير العملاء والسلوك الشرائي -->
+    <div class="report-box">
+        <h4>تقارير العملاء</h4>
+        <canvas id="customersChart"></canvas>
+    </div>
+
+    <!-- تقرير الطلبات وإدارة المنتجات -->
+    <div class="report-box">
+        <h4>إحصائيات الطلبات والمنتجات</h4>
+        <canvas id="ordersChart"></canvas>
+        
+    </div>
+
+    <!-- تقرير معالجة الشكاوى -->
+    <div class="report-box">
+        <h4>إدارة الشكاوى والتقارير</h4>
+        <canvas id="complaintsChart"></canvas>
+    </div>
+    
+</div>
+    <div id="reviews" class="tab-pane fade ">
+    <h3>إدارة المراجعات والتقييمات</h3>
+    <p>هنا يمكنك إدارة المراجعات، الرد على العملاء، وتحليل التقييمات لضمان تجربة مستخدم مثالية.</p>
+
+    <!-- خيارات التحكم بالمراجعات -->
+    <div class="admin-controls">
+        <button class="btn btn-success">الموافقة على مراجعة</button>
+        <button class="btn btn-warning">تعديل مراجعة</button>
+        <button class="btn btn-danger">حذف مراجعة</button>
+    </div>
+
+    <!-- نظام تصفية التقييمات -->
+    <div class="filter-reviews">
+        <label for="reviewFilter">تصفية التقييمات حسب:</label>
+        <select id="reviewFilter">
+            <option value="all">الكل</option>
+            <option value="highest">الأعلى تقييمًا</option>
+            <option value="lowest">الأقل تقييمًا</option>
+            <option value="latest">الأحدث</option>
+        </select>
+    </div>
+
+    <!-- قسم إحصائيات التقييمات -->
+    <div class="review-stats">
+        <h4>إحصائيات التقييمات</h4>
+        <p>متوسط التقييم العام: <strong>4.5/5</strong></p>
+        <p>أكثر المنتجات تقييمًا: <strong>منتج X</strong></p>
+    </div>
+
+    <!-- قسم عرض المراجعات -->
+    <div class="customer-reviews">
+        <h4>آراء العملاء</h4>
+        
+        <div class="review-item">
+            <p><strong>محمد علي</strong> - ⭐⭐⭐⭐⭐</p>
+            <p>منتج رائع! الجودة ممتازة وسرعة التوصيل كانت مذهلة.</p>
+        </div>
+
+        <div class="review-item">
+            <p><strong>سارة أحمد</strong> - ⭐⭐⭐⭐☆</p>
+            <p>التجربة كانت رائعة، لكن أتمنى وجود المزيد من خيارات الألوان.</p>
+        </div>
+
+        <div class="review-item">
+            <p><strong>يوسف سعيد</strong> - ⭐⭐⭐☆☆</p>
+            <p>المنتج جيد ولكن كانت هناك مشكلة بسيطة في التغليف.</p>
+        </div>
+    </div>
+
+</div>
+     <div id="support" class="tab-pane fade ">
+      <!--
+    <h3>الدعم الفني</h3>
+    <p>يمكنك إرسال استفسارك، وسنرد عليك في أقرب وقت ممكن.</p>
+    <form id="support-form">
+        <label for="name">الاسم:</label>
+        <input type="text" id="name" placeholder="أدخل اسمك">
+        
+        <label for="email">البريد الإلكتروني:</label>
+        <input type="email" id="email" placeholder="أدخل بريدك الإلكتروني">
+        
+        <label for="message">الرسالة:</label>
+        <textarea id="message" placeholder="اكتب استفسارك هنا"></textarea>
+
+        <button type="submit">إرسال الاستفسار</button>
+    </form>
+  -->
+   
+    <h3>إدارة الشكاوى</h3>
+    <table>
+        <thead>
+           
+            <tr>
+                <th>رقم الشكوى</th>
+                <th>اسم العميل</th>
+                <th>الوصف</th>
+                <th>الحالة</th>
+                <th>الإجراءات</th>
+            </tr>
+        </thead>
+      
+            <!-- سيتم إدراج الشكاوى ديناميكيًا هنا -->
+       
+     <tbody id="complaint-list"></tbody></table>
+</div>
+    </div>
+
+</div>    </main>
+<script>const salesCtx = document.getElementById('salesChart').getContext('2d');
+new Chart(salesCtx, {
+    type: 'bar',
+    data: {
+        labels: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو'],
+        datasets: [{
+            label: 'الإيرادات بالدولار',
+            data: [5000, 7000, 8000, 12000, 15000],
+            backgroundColor: '#007bff',
+            borderColor: '#0056b3',
+            borderWidth: 1
+        }]
+    }
+});
+
+const reviewsCtx = document.getElementById('reviewsChart').getContext('2d');
+new Chart(reviewsCtx, {
+    type: 'doughnut',
+    data: {
+        labels: ['⭐ 5 نجوم', '⭐ 4 نجوم', '⭐ 3 نجوم', '⭐ 2 نجوم', '⭐ 1 نجمة'],
+        datasets: [{
+            data: [60, 25, 10, 3, 2],
+            backgroundColor: ['#28a745', '#17a2b8', '#ffc107', '#fd7e14', '#dc3545']
+        }]
+    }
+});
+
+const customersCtx = document.getElementById('customersChart').getContext('2d');
+new Chart(customersCtx, {
+    type: 'line',
+    data: {
+        labels: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو'],
+        datasets: [{
+            label: 'عدد العملاء الجدد',
+            data: [200, 400, 600, 850, 1200],
+            borderColor: '#343a40',
+            backgroundColor: 'rgba(52, 58, 64, 0.5)',
+            fill: true
+        }]
+    }
+});
+
+const ordersCtx = document.getElementById('ordersChart').getContext('2d');
+new Chart(ordersCtx, {
+    type: 'pie',
+    data: {
+        labels: ['طلبات مكتملة', 'طلبات معلقة', 'طلبات ملغاة'],
+        datasets: [{
+            data: [75, 15, 10],
+            backgroundColor: ['#28a745', '#ffc107', '#dc3545']
+        }]
+    }
+});
+
+const complaintsCtx = document.getElementById('complaintsChart').getContext('2d');
+new Chart(complaintsCtx, {
+    type: 'bar',
+    data: {
+        labels: ['تأخير الشحن', 'مشاكل المنتج', 'خدمة العملاء', 'طلبات غير صحيحة'],
+        datasets: [{
+            label: 'عدد الشكاوى',
+            data: [50, 30, 15, 10],
+            backgroundColor: '#dc3545',
+            borderColor: '#a71d2a',
+            borderWidth: 1
+        }]
+    }
+});
+document.addEventListener('DOMContentLoaded', function() {
+    saveSettings();
+});
+document.addEventListener("DOMContentLoaded", function () {
+    // مخطط المبيعات
+    const salesCtx = document.getElementById('salesChart').getContext('2d');
+    new Chart(salesCtx, {
+        type: 'bar',
+        data: {
+            labels: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو'],
+            datasets: [{
+                label: 'الإيرادات بالدولار',
+                data: [5000, 7000, 8000, 12000, 15000],
+                backgroundColor: '#007bff',
+                borderColor: '#0056b3',
+                borderWidth: 1
+            }]
+        }
+    });
+
+    // مخطط التقييمات
+    const reviewsCtx = document.getElementById('reviewsChart').getContext('2d');
+    new Chart(reviewsCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['⭐ 5 نجوم', '⭐ 4 نجوم', '⭐ 3 نجوم', '⭐ 2 نجوم', '⭐ 1 نجمة'],
+            datasets: [{
+                data: [60, 25, 10, 3, 2],
+                backgroundColor: ['#28a745', '#17a2b8', '#ffc107', '#fd7e14', '#dc3545']
+            }]
+        }
+    });
+
+    // مخطط نمو العملاء
+    const customersCtx = document.getElementById('customersChart').getContext('2d');
+    new Chart(customersCtx, {
+        type: 'line',
+        data: {
+            labels: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو'],
+            datasets: [{
+                label: 'عدد العملاء الجدد',
+                data: [200, 400, 600, 850, 1200],
+                borderColor: '#343a40',
+                backgroundColor: 'rgba(52, 58, 64, 0.5)',
+                fill: true
+            }]
+        }
+    });
+
+    // مخطط الطلبات
+    const ordersCtx = document.getElementById('ordersChart').getContext('2d');
+    new Chart(ordersCtx, {
+        type: 'pie',
+        data: {
+            labels: ['طلبات مكتملة', 'طلبات معلقة', 'طلبات ملغاة'],
+            datasets: [{
+                data: [75, 15, 10],
+                backgroundColor: ['#28a745', '#ffc107', '#dc3545']
+            }]
+        }
+    });
+
+    // مخطط الشكاوى
+    const complaintsCtx = document.getElementById('complaintsChart').getContext('2d');
+    new Chart(complaintsCtx, {
+        type: 'bar',
+        data: {
+            labels: ['تأخير الشحن', 'مشاكل المنتج', 'خدمة العملاء', 'طلبات غير صحيحة'],
+            datasets: [{
+                label: 'عدد الشكاوى',
+                data: [50, 30, 15, 10],
+                backgroundColor: '#dc3545',
+                borderColor: '#a71d2a',
+                borderWidth: 1
+            }]
+        }
+    });
+});</script>
+ 
+</body>
+</html>
